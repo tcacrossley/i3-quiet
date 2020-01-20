@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from subprocess import run
 from i3ipc.aio import Connection
 from i3ipc import Event
@@ -7,10 +6,13 @@ import asyncio
 
 async def main():
     def on_event(self, e):
-        if e.current.num == 99:
-            run(['polybar-msg', 'cmd', 'hide'])
-        elif e.old and e.old.num == 99:
-            run(['polybar-msg', 'cmd', 'show'])
+        ws = 99
+        if e.current.num == ws:
+            print('invisible')
+            run(['i3-msg', 'bar mode', 'invisible'])
+        elif e.old and e.old.num == ws:
+            print('dock')
+            run(['i3-msg', 'bar mode', 'dock'])
 
     c = await Connection(auto_reconnect=True).connect()
     workspaces = await c.get_workspaces()
